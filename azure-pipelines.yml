@@ -36,6 +36,6 @@ steps:
     resourceGroupName: 'devopsNew'
     location: 'West Europe'
     templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps/master/armTemplates/webApp.json'
-    csmParametersFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps/master/armTemplates/webApp.parameters.json'
+    csmFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps2/master/armTemplates/webApp.json'
+    csmParametersFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps2/master/armTemplates/webApp.parameters.json'
     deploymentMode: 'Incremental'  
