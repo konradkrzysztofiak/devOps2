@@ -62,11 +62,11 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "location": "[resourceGroup().location]",
-          "dependsOn": [
-              "Microsoft.Web/serverfarms/devOpsTrainingServicePlan"
-          ],
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
+            ],
           "properties": {
-            "serverFarmId": "Microsoft.Web/serverfarms/devOpsTrainingServicePlan"
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
           }
         },
         {
