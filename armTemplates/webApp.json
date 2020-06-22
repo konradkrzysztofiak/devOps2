@@ -102,7 +102,7 @@
             "location": "[parameters('location')]",
             "tags": null,
           "dependsOn": [
-            "microsoft.insights/components/function2apptraining",
+            "[concat('microsoft.insights/components/', parameters('functionAppName'))]",
             "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
           ],
             "properties": {
