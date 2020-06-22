@@ -39,9 +39,6 @@
           "name": "F1",
           "capacity": 1
         },
-        "tags": {
-          "displayName": "appServicePlanDevOps1"
-        },
         "properties": {
           "name": "appServicePlanDevOps1"
         }
@@ -179,12 +176,12 @@
             }
         },
         {
-            "name": "keyVaultTraining123965",
+            "name": "kvault6446tr2",
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2016-10-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "myVaultTraining13965"
+                "displayName": "kvault6446tr2"
             },
             "properties": {
                 "enabledForDeployment": true,
