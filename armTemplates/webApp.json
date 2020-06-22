@@ -54,7 +54,7 @@
           "capacity": 1
         },
         "properties": {
-          "name": "devOpsTrainingServicePlan"
+          "name": "[parameters('hostingPlanName')]"
         }
       },
         {
@@ -63,10 +63,10 @@
             "apiVersion": "2018-11-01",
             "location": "[resourceGroup().location]",
           "dependsOn": [
-              "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
+              "Microsoft.Web/serverfarms/devOpsTrainingServicePlan"
           ],
           "properties": {
-            "serverFarmId": "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
+            "serverFarmId": "Microsoft.Web/serverfarms/devOpsTrainingServicePlan"
           }
         },
         {
