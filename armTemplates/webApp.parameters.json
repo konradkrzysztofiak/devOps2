@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptionId": {
+            "value": "67e32ba6-63bb-4f67-bf30-e0d5465fe2dc"
+        },
+        "name": {
+            "value": "functionapptraining"
+        },
+        "location": {
+            "value": "West Europe"
+        },
+        "hostingEnvironment": {
+            "value": ""
+        },
+        "hostingPlanName": {
+            "value": "appServicePlanDevOps"
+        },
+        "serverFarmResourceGroup": {
+            "value": "pipelineTraining"
+        },
+        "alwaysOn": {
+            "value": false
+        },
+        "storageAccountName": {
+            "value": "storageaccountpipelaa74"
+        }
+    }
+}

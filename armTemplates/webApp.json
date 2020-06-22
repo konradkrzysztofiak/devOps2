@@ -1,0 +1,218 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptionId": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "hostingEnvironment": {
+            "type": "string"
+        },
+        "hostingPlanName": {
+            "type": "string"
+        },
+        "serverFarmResourceGroup": {
+            "type": "string"
+        },
+        "alwaysOn": {
+            "type": "bool"
+        },
+        "storageAccountName": {
+            "type": "string"
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "appServicePlanDevOps",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "F1",
+                "capacity": 1
+            },
+            "tags": {
+                "displayName": "appServicePlanDevOps"
+            },
+            "properties": {
+                "name": "appServicePlanDevOps"
+            }
+        },
+        {
+            "name": "webAppdevtraining123",
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "location": "[resourceGroup().location]",
+          "tags": {
+            "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlan1')]": "Resource",
+            "displayName": "webAppdevtraining123"
+          },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps')]"
+            ],
+          "properties": {
+            "name": "webAppdevtraining123",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps')]"
+          }
+        },
+        {
+            "name": "sqlserver123456789",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2014-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "sqlserver1256789"
+            },
+            "properties": {
+                "administratorLogin": "kondek",
+                "administratorLoginPassword": "dstH8vnU"
+            },
+            "resources": [
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2014-04-01",
+                  "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', 'sqlserver1256789')]"
+                  ],
+                    "location": "[resourceGroup().location]",
+                    "name": "AllowAllWindowsAzureIps",
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                }
+            ]
+        },
+         {
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('name')]",
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp",
+            "location": "[parameters('location')]",
+            "tags": null,
+          "dependsOn": [
+            "microsoft.insights/components/function2apptraining",
+            "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+          ],
+            "properties": {
+                "name": "[parameters('name')]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~3"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "dotnet"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference('microsoft.insights/components/function2apptraining', '2015-05-01').InstrumentationKey]"
+                        },
+                      {
+                        "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                        "value": "[reference('microsoft.insights/components/function2apptraining', '2015-05-01').ConnectionString]"
+                      },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
+                        }
+                    ],
+                    "alwaysOn": "[parameters('alwaysOn')]"
+                },
+                "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "hostingEnvironment": "[parameters('hostingEnvironment')]",
+                "clientAffinityEnabled": true
+            }
+        },
+      {
+        "apiVersion": "2015-05-01",
+        "name": "function2appInsight",
+        "type": "microsoft.insights/components",
+        "location": "westeurope",
+        "properties": {
+          "ApplicationId": "[parameters('name')]",
+          "Request_Source": "IbizaWebAppExtensionCreate"
+        }
+      },
+        {
+            "apiVersion": "2019-06-01",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[parameters('storageAccountName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "properties": {
+                "supportsHttpsTrafficOnly": true
+            }
+        },
+        {
+            "name": "logicappfd56789",
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2019-05-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/schemas/2016-06-01/Microsoft.Logic.json",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                    },
+                    "triggers": {
+                    },
+                    "actions": {
+                    },
+                    "outputs": {
+                    }
+                },
+                "parameters": {
+                }
+            }
+        },
+        {
+            "name": "keyVaultTraining123965",
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2016-10-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "myVaultTraining13965"
+            },
+            "properties": {
+                "enabledForDeployment": true,
+                "enabledForTemplateDeployment": true,
+                "enabledForDiskEncryption": true,
+                "tenantId": "a1cc5a87-10ae-4f4c-a3a6-d22cba23a7c9",
+                "accessPolicies": [
+                    {
+                        "tenantId": "a1cc5a87-10ae-4f4c-a3a6-d22cba23a7c9",
+                        "objectId": "13691a17-1a93-40f9-ab27-ca661e7b64ff",
+                        "permissions": {
+                            "keys": [
+                                "Get"
+                            ],
+                            "secrets": [
+                                "List",
+                                "Get",
+                                "Set"
+                            ]
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "standard",
+                    "family": "A"
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
