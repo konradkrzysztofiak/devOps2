@@ -26,7 +26,10 @@ steps:
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
-  displayName: 'publish artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
@@ -39,3 +42,11 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps2/master/armTemplates/webApp.json'
     csmParametersFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps2/master/armTemplates/webApp.parameters.json'
     deploymentMode: 'Incremental'  
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Subskrypcja programu Visual Studio Professional (67e32ba6-63bb-4f67-bf30-e0d5465fe2dc)'
+    appType: 'webApp'
+    WebAppName: 'webAppdevtraining123'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
