@@ -52,7 +52,7 @@
             "apiVersion": "2018-11-01",
             "location": "[resourceGroup().location]",
           "tags": {
-            "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlan1')]": "Resource",
+            "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlanDevOps1')]": "Resource",
             "displayName": "webAppdevtraining123"
           },
           "dependsOn": [
