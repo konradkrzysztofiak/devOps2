@@ -41,8 +41,9 @@ steps:
     deploymentMode: 'Incremental'  
 
 - task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy Azure App Service'
   inputs:
-    azureSubscription: '$(Parameters.ConnectedServiceName)'
-    appType: webApp
-    WebAppName: '$(Parameters.WebAppName)'
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Subskrypcja programu Visual Studio Professional (67e32ba6-63bb-4f67-bf30-e0d5465fe2dc)'
+    appType: 'webApp'
+    WebAppName: 'webAppdevtraining123'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
