@@ -6,7 +6,7 @@
             "value": "67e32ba6-63bb-4f67-bf30-e0d5465fe2dc"
         },
         "name": {
-            "value": "functionapptraining"
+            "value": "functionapptraining2"
         },
         "location": {
             "value": "West Europe"
@@ -15,7 +15,7 @@
             "value": ""
         },
         "hostingPlanName": {
-            "value": "appServicePlanDevOps"
+            "value": "appServicePlanDevOps1"
         },
         "serverFarmResourceGroup": {
             "value": "pipelineTraining"
@@ -24,7 +24,7 @@
             "value": false
         },
         "storageAccountName": {
-            "value": "storageaccountpipelaa74"
+            "value": "storageaccountpipelaa77"
         }
     }
 }

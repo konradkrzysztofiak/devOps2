@@ -30,22 +30,22 @@
     "functions": [],
     "variables": {},
     "resources": [
-        {
-            "name": "appServicePlanDevOps",
-            "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2018-02-01",
-            "location": "[resourceGroup().location]",
-            "sku": {
-                "name": "F1",
-                "capacity": 1
-            },
-            "tags": {
-                "displayName": "appServicePlanDevOps"
-            },
-            "properties": {
-                "name": "appServicePlanDevOps"
-            }
+      {
+        "name": "appServicePlanDevOps1",
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2018-02-01",
+        "location": "[resourceGroup().location]",
+        "sku": {
+          "name": "F1",
+          "capacity": 1
         },
+        "tags": {
+          "displayName": "appServicePlanDevOps1"
+        },
+        "properties": {
+          "name": "appServicePlanDevOps1"
+        }
+      },
         {
             "name": "webAppdevtraining123",
             "type": "Microsoft.Web/sites",
@@ -55,16 +55,16 @@
             "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlan1')]": "Resource",
             "displayName": "webAppdevtraining123"
           },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps')]"
-            ],
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps1')]"
+          ],
           "properties": {
             "name": "webAppdevtraining123",
-            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps')]"
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps1')]"
           }
         },
         {
-            "name": "sqlserver123456789",
+            "name": "sql2server123789",
             "type": "Microsoft.Sql/servers",
             "apiVersion": "2014-04-01",
             "location": "[resourceGroup().location]",
@@ -80,7 +80,7 @@
                     "type": "firewallRules",
                     "apiVersion": "2014-04-01",
                   "dependsOn": [
-                    "[resourceId('Microsoft.Sql/servers', 'sqlserver1256789')]"
+                    "[resourceId('Microsoft.Sql/servers', 'sql2server123789')]"
                   ],
                     "location": "[resourceGroup().location]",
                     "name": "AllowAllWindowsAzureIps",
