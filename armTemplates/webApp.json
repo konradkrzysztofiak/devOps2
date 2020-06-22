@@ -5,11 +5,12 @@
         "subscriptionId": {
             "type": "string"
         },
-        "name": {
-            "type": "string"
-        },
+        
         "location": {
             "type": "string"
+        },
+        "alwaysOn": {
+            "type": "bool"
         },
         "hostingEnvironment": {
             "type": "string"
@@ -17,21 +18,34 @@
         "hostingPlanName": {
             "type": "string"
         },
-        "serverFarmResourceGroup": {
+        "functionAppName": {
             "type": "string"
-        },
-        "alwaysOn": {
-            "type": "bool"
         },
         "storageAccountName": {
             "type": "string"
+        },
+        "webAppName" : {
+            "type": "string"
+        },
+        "keyVaultName" : {
+            "type": "string"
+        },
+        "logicAppName" : {
+            "type": "string"
+        },
+        "resourceGroupName" : {
+            "type": "string"
+        },
+        "sqlServerName" : {
+            "type": "string"
         }
+        
     },
     "functions": [],
     "variables": {},
     "resources": [
       {
-        "name": "appServicePlanDevOps1",
+        "name": "[parameters('hostingPlanName')]",
         "type": "Microsoft.Web/serverfarms",
         "apiVersion": "2018-02-01",
         "location": "[resourceGroup().location]",
@@ -40,34 +54,26 @@
           "capacity": 1
         },
         "properties": {
-          "name": "appServicePlanDevOps1"
+          "name": "[parameters('hostingPlanName')]"
         }
       },
         {
-            "name": "webAppdevtraining123",
+            "name": "[parameters('webAppName')]",
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "location": "[resourceGroup().location]",
-          "tags": {
-            "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlanDevOps1')]": "Resource",
-            "displayName": "webAppdevtraining123"
-          },
           "dependsOn": [
-            "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps1')]"
+              "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
           ],
           "properties": {
-            "name": "webAppdevtraining123",
-            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'appServicePlanDevOps1')]"
+            "serverFarmId": "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
           }
         },
         {
-            "name": "sql2server123789",
+            "name": "[parameters('sqlServerName')]",
             "type": "Microsoft.Sql/servers",
             "apiVersion": "2014-04-01",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "sqlserver1256789"
-            },
             "properties": {
                 "administratorLogin": "kondek",
                 "administratorLoginPassword": "dstH8vnU"
@@ -77,7 +83,7 @@
                     "type": "firewallRules",
                     "apiVersion": "2014-04-01",
                   "dependsOn": [
-                    "[resourceId('Microsoft.Sql/servers', 'sql2server123789')]"
+                    "[resourceId('Microsoft.Sql/servers/', parameters('sqlServerName'))]"
                   ],
                     "location": "[resourceGroup().location]",
                     "name": "AllowAllWindowsAzureIps",
@@ -90,7 +96,7 @@
         },
          {
             "apiVersion": "2018-11-01",
-            "name": "[parameters('name')]",
+            "name": "[parameters('functionAppName')]",
             "type": "Microsoft.Web/sites",
             "kind": "functionapp",
             "location": "[parameters('location')]",
@@ -100,7 +106,7 @@
             "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
           ],
             "properties": {
-                "name": "[parameters('name')]",
+                "name": "[parameters('functionAppName')]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -113,11 +119,11 @@
                         },
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                            "value": "[reference('microsoft.insights/components/function2apptraining', '2015-05-01').InstrumentationKey]"
+                            "value": "[reference(concat('microsoft.insights/components/', parameters('functionAppName')), '2015-05-01').InstrumentationKey]"
                         },
                       {
                         "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                        "value": "[reference('microsoft.insights/components/function2apptraining', '2015-05-01').ConnectionString]"
+                        "value": "[reference(concat('microsoft.insights/components/', parameters('functionAppName')), '2015-05-01').ConnectionString]"
                       },
                         {
                             "name": "AzureWebJobsStorage",
@@ -126,18 +132,18 @@
                     ],
                     "alwaysOn": "[parameters('alwaysOn')]"
                 },
-                "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
                 "hostingEnvironment": "[parameters('hostingEnvironment')]",
                 "clientAffinityEnabled": true
             }
         },
       {
         "apiVersion": "2015-05-01",
-        "name": "function2apptraining",
+        "name": "[parameters('functionAppName')]",
         "type": "microsoft.insights/components",
         "location": "westeurope",
         "properties": {
-          "ApplicationId": "[parameters('name')]",
+          "ApplicationId": "[parameters('functionAppName')]",
           "Request_Source": "IbizaWebAppExtensionCreate"
         }
       },
@@ -154,7 +160,7 @@
             }
         },
         {
-            "name": "logicappfd56789",
+            "name": "[parameters('logicAppName')]",
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2019-05-01",
             "location": "[resourceGroup().location]",
@@ -176,13 +182,10 @@
             }
         },
         {
-            "name": "kvault6446tr2",
+            "name": "[parameters('keyVaultName')]",
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2016-10-01",
             "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "kvault6446tr2"
-            },
             "properties": {
                 "enabledForDeployment": true,
                 "enabledForTemplateDeployment": true,

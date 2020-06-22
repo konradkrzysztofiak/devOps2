@@ -5,26 +5,41 @@
         "subscriptionId": {
             "value": "67e32ba6-63bb-4f67-bf30-e0d5465fe2dc"
         },
-      "name": {
-        "value": "function2apptraining"
-      },
+      
         "location": {
             "value": "West Europe"
+        },
+        "alwaysOn": {
+            "value": false
         },
         "hostingEnvironment": {
             "value": ""
         },
         "hostingPlanName": {
-            "value": "appServicePlanDevOps1"
+            "value": "devOpsTraining873426"
         },
-        "serverFarmResourceGroup": {
+        "webAppName": {
+            "value": "webApp-76784hf"
+        },
+        "resourceGroupName": {
             "value": "devopsNew"
         },
-        "alwaysOn": {
-            "value": false
+        "keyVaultName": {
+            "value": "kvault0523j"
         },
+        "logicAppName": {
+            "value": "logicApp9328378f"
+        },
+        "sqlServerName": {
+            "value": "sqlServer938482f"
+        },
+        "functionAppName": {
+            "value": "funcapp873kf2"
+          },
+        
         "storageAccountName": {
-            "value": "storageaccountpipelaa77"
+            "value": "storageaccountpipelaa9283"
         }
+
     }
 }
