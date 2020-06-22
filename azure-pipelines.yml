@@ -39,3 +39,10 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps2/master/armTemplates/webApp.json'
     csmParametersFileLink: 'https://raw.githubusercontent.com/konradkrzysztofiak/devOps2/master/armTemplates/webApp.parameters.json'
     deploymentMode: 'Incremental'  
+
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Deploy Azure App Service'
+  inputs:
+    azureSubscription: '$(Parameters.ConnectedServiceName)'
+    appType: webApp
+    WebAppName: '$(Parameters.WebAppName)'
